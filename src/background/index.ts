@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                    url: chrome.runtime.getURL('ace-editor-redirect/ext-language_tools.js')
+                    url: chrome.runtime.getURL("ace-editor-redirect/ext-language_tools.js")
                 }
             },
             condition: {
@@ -27,7 +27,7 @@ chrome.runtime.onInstalled.addListener(() => {
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                    url: chrome.runtime.getURL('ace-editor-redirect/javascript.js')
+                    url: chrome.runtime.getURL("ace-editor-redirect/javascript.js")
                 }
             },
             condition: {
