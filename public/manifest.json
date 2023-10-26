@@ -23,8 +23,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "ace-editor-redirect/ext-language_tools.js",
-        "ace-editor-redirect/javascript.js"
+        "redirect/ext-language_tools.js",
+        "redirect/javascript.js"
       ],
       "matches": [
         "<all_urls>"
