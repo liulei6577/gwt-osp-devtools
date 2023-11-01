@@ -1,0 +1,1 @@
+ace.define("ace/snippets/javascript",["require","exports","module"],function(e,t,n){"use strict";t.snippetText='{snippets}',t.scope="javascript"})

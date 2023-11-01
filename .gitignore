@@ -2,4 +2,4 @@
 /dist/
 *.iml
 *.idea
-/gwt-osp-devtools.zip
+gwt-osp-devtools-*.zip
