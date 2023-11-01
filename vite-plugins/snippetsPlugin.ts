@@ -11,7 +11,7 @@ const plugin = (options: Options): PluginOption => {
     return {
         name: 'snippets-plugin',
         apply: 'build',
-        closeBundle() {
+        buildEnd() {
             fs.readFile(options.jsTplFile, {
                 encoding: 'utf-8'
             }, (err, jsTplData) => {
@@ -27,7 +27,7 @@ const plugin = (options: Options): PluginOption => {
                     })
                 })
             })
-            console.log('\x1b[36m%s\x1b[0m', 'snippets处理完成');
+            console.log('\x1b[36m%s\x1b[0m', '\nsnippets处理完成');
         }
     }
 }
