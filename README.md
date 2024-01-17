@@ -2,6 +2,10 @@
 
 GWT表单开发工具
 
+## Download Page
+
+[Releases](https://github.com/liulei6577/gwt-osp-devtools/releases/latest)
+
 ## 插件开发依据
 
 - [ACE Editor 项目源码地址](https://github.com/ajaxorg/ace)
