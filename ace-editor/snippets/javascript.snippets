@@ -78,12 +78,6 @@ regex /([,{[])|^\s*/:f/
 snippet setTimeout
 regex /\b/st|timeout|setTimeo?u?t?/
 	setTimeout(function() {${3:$TM_SELECTED_TEXT}}, ${1:10});
-# Get Elements
-snippet gett
-	getElementsBy${1:TagName}('${2}')${3}
-# Get Element
-snippet get
-	getElementBy${1:Id}('${2}')${3}
 # console.log (Firebug)
 snippet cl
 	console.log(${1});
@@ -208,8 +202,14 @@ snippet fords DataSet循环
 snippet mcg MC取值
     MC.getValue("$1", $2)$0
 
+snippet vmcg MC取值
+    var $1 = MC.getValue("$1", $2)$0
+
 snippet mcs MC放值
     MC.setValue("$1", $2)$0
+
+snippet vmcs MC放值
+    MC.setValue("$1", $1)$0
 
 snippet newpo 创建PO
     var ${1:PO} = \$wnd.JParamObject();$0
@@ -264,3 +264,87 @@ snippet rt0
 
 snippet rt1
     return returnObject.setReturnString("1");$0
+
+snippet SVR WebService的SVR调用
+    var PO = \$wnd.JParamObject();
+    WebService$1.SVR("$2", PO, ${3:null});
+
+snippet IOM WebService的IOM调用
+    var PO = \$wnd.JParamObject();
+    WebService$1.IOM("$2", "$3", PO, ${4:null});
+
+snippet WSCB WebService的回调
+    if (data) {
+        var ro = data.getResponseObject();
+        if (ro) {
+            /* code */
+        } else {
+            /* code */
+        }
+    } else {
+        /* code */
+    }
+
+snippet rocode 服务调用返回的ro取code
+    ${1:ro}.getErrorCode()$0
+
+snippet romsg 服务调用返回的ro取msg
+    ${1:ro}.getErrorString()$0
+
+snippet MDMSETPO MDModel设置PO
+    var DCT_ID = PO.getParam("DCT_ID");
+
+    if (DCT_ID == "$1") {
+
+        var whereSql = PO.getParam(DCT_ID + "_MDMSelfWhere", "");;
+
+        /* code */$0
+
+        PO.setParam(DCT_ID + "_MDMSelfWhere", whereSql);
+        PO.setParam(DCT_ID + "_MDMSelfOrder", "");
+
+    }
+
+snippet order 给PO设置orderBy
+    PO.setParam(${1:DCT_ID} + "_MDMSelfOrder", "");
+
+snippet where 给PO设置where
+    PO.setParam(${1:DCT_ID} + "_MDMSelfWhere", "");
+
+snippet lang 多语言取菜单变量
+    var PO = \$wnd.JParamObject();
+    var Country = PO.getEnv("Country", "");
+    var International = PO.getEnv("International", "");
+    var lang = International + "_" + Country;
+    var ${1} = MC.getValue("${1}" + "_" + lang, MC.getValue("${1}", ""));
+
+snippet langget 多语言取菜单变量
+    var ${1} = MC.getValue("${1}" + "_" + lang, MC.getValue("${1}", ""));
+
+snippet MDMGDS MDModel取dataSet
+    var ${2:dataSet} = MDModel${1}.getMdmDataModel().getDataSet(MDModel${1}.getDCT_ID());$0
+
+snippet CMFori ColumnModel循环取Column
+    for (var ${1:i} = 0; ${1:i} < ColumnModel$2.getColumnCount(); ${1:i}++) {
+        var ${3:column} = ColumnModel$2.getColumnByIndex(${1:i});
+        /* code */$0
+    }
+
+snippet CMForid ColumnModel循环取Column
+    var cols = [$4];//列ID
+    for (var ${1:i} = 0; ${1:i} < cols.length; ${1:i}++) {
+        var ${3:column} = ColumnModel$2.getColumnByDataSetColID(cols[${1:i}]);
+        /* code */$0
+    }
+
+snippet getDouble EFRowSet的getDouble操作
+    getDouble("$1", ${2:0})$0
+
+snippet getString EFRowSet的getString操作
+    getString("$1", "${2}")$0
+
+snippet putDouble EFRowSet的putDouble操作
+    putDouble("$1", ${2})$0
+
+snippet putString EFRowSet的putString操作
+    putString("$1", ${2})$0
