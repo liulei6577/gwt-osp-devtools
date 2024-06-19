@@ -1,42 +1,30 @@
-# Prototype
-snippet proto
-	${1:class_name}.prototype.${2:method_name} = function(${3:first_argument}) {
-		${4:// body...}
-	};
-# Function
-snippet fun
-	function ${1?:function_name}(${2:argument}) {
+snippet fun 定义函数
+	function ${1:funcName}(${2:argument}) {
 		${3:// body...}
 	}
-# Anonymous Function
-regex /((=)\s*|(:)\s*|(\()|\b)/f/(\))?/
-snippet f
-	function${M1?: ${1:functionName}}($2) {
-		${0:$TM_SELECTED_TEXT}
-	}${M2?;}${M3?,}${M4?)}
-# Immediate function
-trigger \(?f\(
-endTrigger \)?
-snippet f(
-	(function(${1}) {
-		${0:${TM_SELECTED_TEXT:/* code */}}
-	}(${1}));
-# if
+
+snippet cf=> 函数定义
+    const ${1:funcName} = (${2:argument}) => {
+        ${3:// body...}
+    }
+
+snippet f=> 箭头函数
+    (${1:argument}) => {
+        ${2:// body...}
+    }
+
 snippet if
-	if (${1:true}) {
+	if ($1) {
 		${0}
 	}
-# if ... else
-snippet ife
-	if (${1:true}) {
+
+snippet ifel
+	if ($1) {
 		${2}
 	} else {
 		${0}
 	}
-# tertiary conditional
-snippet ter
-	${1:/* condition */} ? ${2:a} : ${3:b}
-# switch
+
 snippet switch
 	switch (${1:expression}) {
 		case '${3:case}':
@@ -46,191 +34,89 @@ snippet switch
 		default:
 			${2:// code}
 	}
-# case
+
 snippet case
 	case '${1:case}':
 		${2:// code}
 		break;
 	${3}
 
-# while (...) {...}
-snippet wh
+snippet wh while块
 	while (${1:/* condition */}) {
 		${0:/* code */}
 	}
-# try
+
 snippet try
 	try {
 		${0:/* code */}
-	} catch (e) {}
-# do...while
+	} catch (e) {
+	    ${1:/* code */}
+	}
+
 snippet do
 	do {
 		${2:/* code */}
 	} while (${1:/* condition */});
-# Object Method
-snippet :f
-regex /([,{[])|^\s*/:f/
-	${1:method_name}: function(${2:attribute}) {
-		${0}
-	}${3:,}
-# setTimeout function
-snippet setTimeout
-regex /\b/st|timeout|setTimeo?u?t?/
-	setTimeout(function() {${3:$TM_SELECTED_TEXT}}, ${1:10});
-# console.log (Firebug)
-snippet cl
+
+snippet clog
 	console.log(${1});
-# return
+
+snippet cerr
+	console.error(${1});
+
 snippet ret
 	return ${1:result}
-# for (property in object ) { ... }
-snippet fori
-	for (var ${1:prop} in ${2:Things}) {
-		${0:$2[$1]}
-	}
-# hasOwnProperty
-snippet has
-	hasOwnProperty(${1})
-# docstring
-snippet /**
-	/**
-	 * ${1:description}
-	 *
-	 */
-snippet @par
-regex /^\s*\*\s*/@(para?m?)?/
-	@param {${1:type}} ${2:name} ${3:description}
-snippet @ret
-	@return {${1:type}} ${2:description}
-# JSON.parse
+
 snippet jsonp
 	JSON.parse(${1:jstr});
-# JSON.stringify
+
 snippet jsons
 	JSON.stringify(${1:object});
-# self-defining function
-snippet sdf
-	var ${1:function_name} = function(${2:argument}) {
-		${3:// initial code ...}
-
-		$1 = function($2) {
-			${4:// main code}
-		};
-	}
-# singleton
-snippet sing
-	function ${1:Singleton} (${2:argument}) {
-		// the cached instance
-		var instance;
-
-		// rewrite the constructor
-		$1 = function $1($2) {
-			return instance;
-		};
-
-		// carry over the prototype properties
-		$1.prototype = this;
-
-		// the instance
-		instance = new $1();
-
-		// reset the constructor pointer
-		instance.constructor = $1;
-
-		${3:// code ...}
-
-		return instance;
-	}
-# class
-snippet class
-regex /^\s*/clas{0,2}/
-	var ${1:class} = function(${20}) {
-		$40$0
-	};
-
-	(function() {
-		${60:this.prop = ""}
-	}).call(${1:class}.prototype);
-
-	exports.${1:class} = ${1:class};
-#
-snippet for-
-	for (var ${1:i} = ${2:Things}.length; ${1:i}--; ) {
-		${0:${2:Things}[${1:i}];}
-	}
-# for (...) {...}
-snippet for
-	for (var ${1:i} = 0; $1 < ${2:Things}.length; $1++) {
-		${3:$2[$1]}$0
-	}
-# for (...) {...} (Improved Native For-Loop)
-snippet forr
-	for (var ${1:i} = ${2:Things}.length - 1; $1 >= 0; $1--) {
-		${3:$2[$1]}$0
-	}
-
-
-#modules
-snippet def
-	define(function(require, exports, module) {
-	"use strict";
-	var ${1/.*\///} = require("${1}");
-
-	$TM_SELECTED_TEXT
-	});
-snippet req
-guard ^\s*
-	var ${1/.*\///} = require("${1}");
-	$0
-snippet requ
-guard ^\s*
-	var ${1/.*\/(.)/\u$1/} = require("${1}").${1/.*\/(.)/\u$1/};
-	$0
-
-
-# 以下为GWT表单自定义
 
 snippet fmbrs 获取单据头
-    var billRowSet = FormModel${1:1}.getBillDataSet().getRowSet(0);
+    let billRowSet = FormModel${1:1}.getBillDataSet().getRowSet(0);
+
+snippet fmids 获取分录DataSet
+    let billRowSet = FormModel${1:1}.getBillDataSet().getRowSet(0);
+    let itemDataSet = billRowSet.getDataSet("$2");
 
 snippet fords DataSet循环
-    for (var ${1:i} = 0; $1 < ${2:dataSet}.getRowCount(); $1++) {
-        var ${3:rowSet} = $2.getRowSet($1);$0
+    for (let ${1:i} = 0; $1 < ${2:dataSet}.getRowCount(); $1++) {
+        let ${3:rowSet} = $2.getRowSet($1);$0
     }
 
 snippet mcg MC取值
     MC.getValue("$1", $2)$0
 
-snippet vmcg MC取值
-    var $1 = MC.getValue("$1", $2)$0
+snippet lmcg MC取值
+    let $1 = MC.getValue("$1", $2)$0
 
 snippet mcs MC放值
     MC.setValue("$1", $2)$0
 
-snippet vmcs MC放值
+snippet lmcs MC放值
     MC.setValue("$1", $1)$0
 
 snippet newpo 创建PO
-    var ${1:PO} = \$wnd.JParamObject();$0
+    let ${1:PO} = \$wnd.JParamObject();$0
 
-snippet vnewds 创建DataSet
-    var ${1:dataSet} = \$wnd.EFDataSet();$0
+snippet lnewds 创建DataSet
+    let ${1:dataSet} = \$wnd.EFDataSet();$0
 
 snippet newds 创建DataSet
     \$wnd.EFDataSet()
 
-snippet vnewrs 创建RowSet
-    var ${1:rowSet} = \$wnd.EFRowSet();$0
+snippet lnewrs 创建RowSet
+    let ${1:rowSet} = \$wnd.EFRowSet();$0
 
 snippet newrs 创建RowSet
     \$wnd.EFRowSet()
 
-snippet UUID 获取GUID
-    \$wnd.UUID()
-
-snippet uuid 获取UUID
+snippet GUID 获取GUID，G开头，长度32
     \$wnd.uuid()
+
+snippet UUID 获取UUID，带-，长度为36
+    \$wnd.UUID()
 
 snippet fm FormModel
     FormModel$1
@@ -248,16 +134,36 @@ snippet fctyyyy 获取当前时间，格式：yyyy
     \$wnd.getCurrentTime("yyyy")
 
 snippet alertw Alert弹框MESSAGE_WARN
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 确定回调函数
     \$wnd.showAlert("$1", "${2:系统提示}", "MESSAGE_WARN", "${3:确定}", ${4:null});$0
 
 snippet alerte Alert弹框MESSAGE_ERROR
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 确定回调函数
     \$wnd.showAlert("$1", "${2:系统提示}", "MESSAGE_ERROR", "${3:确定}", ${4:null});$0
 
 snippet alertn Alert弹框MESSAGE_NORMAL
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 确定回调函数
     \$wnd.showAlert("$1", "${2:系统提示}", "MESSAGE_NORMAL", "${3:确定}", ${4:null});$0
 
 snippet alertq Alert弹框MESSAGE_QUESTION
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 确定回调函数
     \$wnd.showAlert("$1", "${2:系统提示}", "MESSAGE_QUESTION", "${3:确定}", ${4:null});$0
+
+snippet confirmw Confirm弹框MESSAGE_WARN
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 取消按钮文本 确定回调函数 取消回调函数
+    \$wnd.showConfirm("$1", "${2:系统提示}", "MESSAGE_WARN", "${3:确定}", "${4:取消}", ${5:null}, ${6:null});$0
+
+snippet confirme Confirm弹框MESSAGE_ERROR
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 取消按钮文本 确定回调函数 取消回调函数
+    \$wnd.showConfirm("$1", "${2:系统提示}", "MESSAGE_ERROR", "${3:确定}", "${4:取消}", ${5:null}, ${6:null});$0
+
+snippet confirmn Confirm弹框MESSAGE_NORMAL
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 取消按钮文本 确定回调函数 取消回调函数
+    \$wnd.showConfirm("$1", "${2:系统提示}", "MESSAGE_NORMAL", "${3:确定}", "${4:取消}", ${5:null}, ${6:null});$0
+
+snippet confirmq Confirm弹框MESSAGE_QUESTION
+    //参数依次为：内容 标题 弹框类型 确定按钮文本 取消按钮文本 确定回调函数 取消回调函数
+    \$wnd.showConfirm("$1", "${2:系统提示}", "MESSAGE_QUESTION", "${3:确定}", "${4:取消}", ${5:null}, ${6:null});$0
 
 snippet rt0
     return returnObject.setReturnString("0");$0
@@ -266,23 +172,33 @@ snippet rt1
     return returnObject.setReturnString("1");$0
 
 snippet SVR WebService的SVR调用
-    var PO = \$wnd.JParamObject();
-    WebService$1.SVR("$2", PO, ${3:null});
+    let PO = \$wnd.JParamObject();
+    //依次参数为 serviceKey paramObject dataObject webContext customObject addObject
+    //参数说明：服务KEY PO 传给后台的数据dataObject webContext一般用null 传给后台的数据customObject 传给后台的数据addObject
+    WebService$1.SVR("$2", PO, ${3:null}, null, ${4:null}, ${5:null});
 
 snippet IOM WebService的IOM调用
-    var PO = \$wnd.JParamObject();
-    WebService$1.IOM("$2", "$3", PO, ${4:null});
+    let PO = \$wnd.JParamObject();
+    //依次参数为 objectName objectMethod paramObject dataObject webContext customObject addObject
+    //参数说明：调用对象名称 调用对象方法 PO 传给后台的数据dataObject webContext一般用null 传给后台的数据customObject 传给后台的数据addObject
+    WebService$1.IOM("$2", "$3", PO, ${4:null}, null, ${5:null}, ${6:null});
 
 snippet WSCB WebService的回调
-    if (data) {
-        var ro = data.getResponseObject();
-        if (ro) {
+    if (!data) {
+        console.error("返回结果为空");
+        return;
+    }
+
+    if (data.getErrorCode() == 0) {
+        //一般后台会使用ro.setResponseObject来放入返回值
+        let obj = data.getResponseObject();
+        if (obj) {
             /* code */
         } else {
             /* code */
         }
     } else {
-        /* code */
+        \$wnd.showAlert(data.getErrorString(), "系统提示", "MESSAGE_ERROR", "确定", null);
     }
 
 snippet rocode 服务调用返回的ro取code
@@ -292,11 +208,15 @@ snippet romsg 服务调用返回的ro取msg
     ${1:ro}.getErrorString()$0
 
 snippet MDMSETPO MDModel设置PO
-    var DCT_ID = PO.getParam("DCT_ID");
+    let DCT_ID = PO.getParam("DCT_ID");
 
     if (DCT_ID == "$1") {
 
-        var whereSql = PO.getParam(DCT_ID + "_MDMSelfWhere", "");;
+        //如果是帮助组件绑定的MDModel需要从PO中取出where条件sql，
+        //否则会导致搜索条件不生效，
+        //PO.getParam(DCT_ID + "_MDMSelfWhere", "");
+
+        let whereSql = "";
 
         /* code */$0
 
@@ -312,28 +232,28 @@ snippet where 给PO设置where
     PO.setParam(${1:DCT_ID} + "_MDMSelfWhere", "");
 
 snippet lang 多语言取菜单变量
-    var PO = \$wnd.JParamObject();
-    var Country = PO.getEnv("Country", "");
-    var International = PO.getEnv("International", "");
-    var lang = International + "_" + Country;
-    var ${1} = MC.getValue("${1}" + "_" + lang, MC.getValue("${1}", ""));
+    let PO = \$wnd.JParamObject();
+    let Country = PO.getEnv("Country", "");
+    let International = PO.getEnv("International", "");
+    let lang = International + "_" + Country;
+    let ${1} = MC.getValue("${1}" + "_" + lang, MC.getValue("${1}", ""));
 
 snippet langget 多语言取菜单变量
-    var ${1} = MC.getValue("${1}" + "_" + lang, MC.getValue("${1}", ""));
+    let ${1} = MC.getValue("${1}" + "_" + lang, MC.getValue("${1}", ""));
 
 snippet MDMGDS MDModel取dataSet
-    var ${2:dataSet} = MDModel${1}.getMdmDataModel().getDataSet(MDModel${1}.getDCT_ID());$0
+    let ${2:dataSet} = MDModel${1}.getMdmDataModel().getDataSet(MDModel${1}.getDCT_ID());$0
 
 snippet CMFori ColumnModel循环取Column
-    for (var ${1:i} = 0; ${1:i} < ColumnModel$2.getColumnCount(); ${1:i}++) {
-        var ${3:column} = ColumnModel$2.getColumnByIndex(${1:i});
+    for (let ${1:i} = 0; ${1:i} < ColumnModel$2.getColumnCount(); ${1:i}++) {
+        let ${3:column} = ColumnModel$2.getColumnByIndex(${1:i});
         /* code */$0
     }
 
 snippet CMForid ColumnModel循环取Column
-    var cols = [$4];//列ID
-    for (var ${1:i} = 0; ${1:i} < cols.length; ${1:i}++) {
-        var ${3:column} = ColumnModel$2.getColumnByDataSetColID(cols[${1:i}]);
+    let cols = [$4];//列ID
+    for (let ${1:i} = 0; ${1:i} < cols.length; ${1:i}++) {
+        let ${3:column} = ColumnModel$2.getColumnByDataSetColID(cols[${1:i}]);
         /* code */$0
     }
 
@@ -348,3 +268,131 @@ snippet putDouble EFRowSet的putDouble操作
 
 snippet putString EFRowSet的putString操作
     putString("$1", ${2})$0
+
+snippet downloadS 静态资源下载
+    function downloadFile(url, fileName) {
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+    }
+
+    let serverBase = \$wnd.getEAIServer("${1:ZJXT}");//目标系统编号
+    let url = serverBase.getObject("protocol")
+        + "://" + serverBase.getObject("host")
+        + ":" + serverBase.getObject("port")
+        + "/" + serverBase.getObject("path")
+        + "${2:/xxxxx/templateName.xlsx}";//模板文件路径，必须为静态资源路径
+
+    downloadFile(url, "${3:XXX导入模板}");$0
+
+snippet downloadD 动态资源下载
+    //动态文件下载脚本都是在WebService组件的callback函数中使用
+    //data为WebService的callback的参数
+    if (data.getErrorCode() != 0) {
+        \$wnd.showAlert(data.getErrorString(), "系统提示", "MESSAGE_NORMAL");
+        return;
+    }
+
+    /**
+     * 下载函数，一般无需修改直接使用
+     * @param bytes
+     * @param filename
+     * @param contentType
+     */
+    function downloadFile(bytes, filename = "noname", contentType = "application/octet-stream") {
+        if (bytes) {
+            let content = new Uint8Array(bytes);
+            let blob = new Blob([content], { type: contentType });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
+    let responseMap = data.getResponseMap();
+    if (responseMap) {
+        let map = \$wnd.JSMap();
+        map.setMap(responseMap);
+
+        //取出字节数组和文件名，后台代码需要按照此规则放值，其他情况请自行拓展修改
+        let bytes = map.get("bytes");
+        let filename = map.get("filename");
+        let contentType = map.get("contentType");
+
+        //使用不同的content-type浏览器会产生不同的效果，
+        //例如application/pdf可能会触发浏览器的PDF预览功能，
+        //详细MIME列表请参考：https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+
+        downloadFile(bytes, filename, contentType);
+    }
+
+snippet gwtCall 调用未暴露的对象函数
+    //参数必须以数组形式，参数依次为：组件对象 对象方法 对象方法所需参数的数组
+    \$wnd.gwtCall($1, "$2", [$3]);$0
+
+snippet gwtGet 获取对象私有属性值
+    \$wnd.gwtGet($1, "$2")$0
+
+snippet gwtSet 设置对象私有属性值
+    \$wnd.gwtSet($1, "$2");$0
+
+snippet MDMGetComps 获取MDModel关联的组件
+    let comps = [];
+    let compList = MDModel$1.getDMCompList();
+    if (compList) {
+        comps = \$wnd.gwtCall(compList, "toArray");
+    }
+    $0
+
+snippet FMGetComps 获取FormModel关联的组件
+    let comps = [];
+    let compList = \$wnd.gwtCall(FormModel$1, "getDMCompList");
+    if (compList) {
+        comps = \$wnd.gwtCall(compList, "toArray");
+    }
+    $0
+
+snippet forMap 遍历map
+    for (let kv of ${1:map}) {
+        //kv为[key, value]二值数组
+        /* code */$0
+    }
+
+snippet forMapK 遍历map的key
+    for (let key of ${1:map}.keys()) {
+        /* code */$0
+    }
+
+snippet forMapV 遍历map的value
+    for (let value of ${1:map}.values()) {
+        /* code */$0
+    }
+
+snippet forSet 遍历set
+    for(let value of ${1:set}) {
+      /* code */$0
+    }
+
+snippet forArray 遍历array
+    for(let value of ${1:array}) {
+      /* code */$0
+    }
+
+snippet MetaDataDS 获取元数据DataSet
+    let dctMetaData = DCTMetaDataModel$1.getDctMetaData();
+    if (dctMetaData) {
+        let dataSet = dctMetaData.getObject("mainDoMetaData").getDataSet("SYS_OBJCOLS");
+    }
+    $0
