@@ -1,6 +1,6 @@
-import Rule = chrome.declarativeNetRequest.Rule
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import ResourceType = chrome.declarativeNetRequest.ResourceType
+import Rule = chrome.declarativeNetRequest.Rule;
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 chrome.runtime.onInstalled.addListener(() => {
 
@@ -11,11 +11,11 @@ chrome.runtime.onInstalled.addListener(() => {
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                    url: chrome.runtime.getURL("redirect/ext-language_tools.js")
+                    url: chrome.runtime.getURL('redirect/ext-language_tools.js')
                 }
             },
             condition: {
-                urlFilter: "ext-language_tools.js",
+                urlFilter: 'ext-language_tools.js',
                 resourceTypes: [
                     ResourceType.SCRIPT
                 ]
@@ -27,20 +27,20 @@ chrome.runtime.onInstalled.addListener(() => {
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                    url: chrome.runtime.getURL("redirect/javascript.js")
+                    url: chrome.runtime.getURL('redirect/javascript.js')
                 }
             },
             condition: {
-                urlFilter: "snippets/javascript.js",
+                urlFilter: 'snippets/javascript.js',
                 resourceTypes: [
                     ResourceType.SCRIPT
                 ]
             }
         },
-    ]
+    ];
 
     chrome.declarativeNetRequest.getDynamicRules((rules) => {
-        let oldRulesIds = rules.map(r => r.id)
+        const oldRulesIds = rules.map(r => r.id);
         chrome.declarativeNetRequest.updateDynamicRules(
             {
                 addRules: initialRules,
@@ -48,7 +48,7 @@ chrome.runtime.onInstalled.addListener(() => {
             },
             () => {
             }
-        )
-    })
+        );
+    });
 
-})
+});

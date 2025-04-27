@@ -9,6 +9,7 @@
   "include": [
     "vite.config.ts",
     "package.json",
-    "vite-plugins/snippetsPlugin.ts"
+    "vite-plugins/snippetsPlugin.ts",
+    "vite-plugins/markdownToHtml.ts"
   ]
 }

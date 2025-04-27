@@ -1,14 +1,19 @@
-import {defineConfig} from 'vite'
-import react from '@vitejs/plugin-react'
-import zipPack from 'vite-plugin-zip-pack'
-import snippetsPlugin from './vite-plugins/snippetsPlugin'
-import path from 'path'
-import {version} from './package.json'
+import {defineConfig} from 'vite';
+import react from '@vitejs/plugin-react';
+import zipPack from 'vite-plugin-zip-pack';
+import snippetsPlugin from './vite-plugins/snippetsPlugin';
+import markdownToHtml from './vite-plugins/markdownToHtml';
+import path from 'path';
+import {version} from './package.json';
 
 export default defineConfig({
     base: './',
     plugins: [
         react(),
+        markdownToHtml({
+            markdownFile: path.resolve(__dirname, 'README.md'),
+            out: path.resolve(__dirname, 'dist/readme.html'),
+        }),
         snippetsPlugin({
             jsTplFile: path.resolve(__dirname, 'ace-editor/snippets/javascript.js.tpl'),
             snippetsFile: path.resolve(__dirname, 'ace-editor/snippets/javascript.snippets'),
@@ -28,6 +33,7 @@ export default defineConfig({
             input: {
                 background: path.resolve(__dirname, 'src/background/index.ts'),
                 devtools: path.resolve(__dirname, 'src/devtools.html'),
+                popup: path.resolve(__dirname, 'src/popup.html'),
             },
             output: {
                 chunkFileNames: 'js/[name].js',
@@ -36,4 +42,4 @@ export default defineConfig({
             }
         }
     }
-})
+});
