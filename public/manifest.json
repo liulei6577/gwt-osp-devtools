@@ -13,6 +13,17 @@
   "background": {
     "service_worker": "js/background.js"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
   "devtools_page": "devtools.html",
   "action": {
     "default_popup": "popup.html"
@@ -27,7 +38,9 @@
     {
       "resources": [
         "redirect/ext-language_tools.js",
-        "redirect/javascript.js"
+        "redirect/ext-beautify.js",
+        "redirect/javascript.js",
+        "js/*"
       ],
       "matches": [
         "<all_urls>"

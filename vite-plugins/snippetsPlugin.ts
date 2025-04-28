@@ -1,5 +1,5 @@
 import {PluginOption} from 'vite';
-import fs from 'fs-extra';
+import fs from 'fs';
 
 export interface Options {
     jsTplFile: string;
@@ -22,6 +22,11 @@ const plugin = (options: Options): PluginOption => {
                 // eslint-disable-next-line
                 .replace(/    /gi, '\t');
             const result = tpl.replace('{snippets}', snippetsReplaced);
+
+            const outDir = options.out.slice(0, options.out.indexOf('/'));
+            if (!fs.existsSync(outDir)) {
+                fs.mkdirSync(outDir, {recursive: true});
+            }
             fs.writeFileSync(options.out, result);
             console.log('\x1b[36m%s\x1b[0m', '\nsnippets处理完成');
         }

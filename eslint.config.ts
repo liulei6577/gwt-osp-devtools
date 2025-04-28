@@ -22,6 +22,16 @@ export default tseslint.config(
             'indent': ['error', 4],
             'quotes': ['error', 'single', {'avoidEscape': true, 'allowTemplateLiterals': true}],
             'eqeqeq': ['error', 'always'],
+            'no-empty': ['error', {'allowEmptyCatch': true}],
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    'argsIgnorePattern': '^_',
+                    'varsIgnorePattern': '^_',
+                    'caughtErrorsIgnorePattern': '^_'
+                }
+            ],
+            '@typescript-eslint/no-explicit-any': 'off',
             ...reactHooks.configs.recommended.rules,
             'react-refresh/only-export-components': [
                 'warn',
