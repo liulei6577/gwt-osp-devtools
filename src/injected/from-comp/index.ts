@@ -54,6 +54,7 @@ const generateCompletions = (prefixPair: [string, string], fromCompMethods: From
             .join(', ');
 
         const snippet = `${prefixPair[0]}.${method.methodName}(${args})$0`;
+        const docHTML = `${method.description || method.methodName}<br/><hr/>${snippet}`;
 
         return {
             caption: method.methodName,
@@ -61,7 +62,7 @@ const generateCompletions = (prefixPair: [string, string], fromCompMethods: From
             snippet,
             meta: 'method',
             score: calculateScore(prefixPair[1], method.methodName),
-            docHTML: snippet,
+            docHTML,
         };
 
     });
@@ -110,15 +111,11 @@ const createMethodCompleter = (formDesigner: FormDesigner) => {
 
                 //取组件信息
                 const fromCompInfo = getFromCompInfo(pair[0], formDesigner);
-                console.log('fromCompInfo=', fromCompInfo);
                 if (fromCompInfo) {
                     //取组件的方法
                     const fromCompMethods = getFromCompMethod(pair[1], fromCompInfo);
                     const c = generateCompletions(pair, fromCompMethods);
                     completions.push(...c);
-
-                    console.log('fromCompMethods=', fromCompMethods);
-                    console.log('completions=', completions);
                 }
 
             }

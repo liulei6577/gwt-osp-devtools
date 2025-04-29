@@ -44,4 +44,5 @@ interface FromCompInfo {
 interface FromCompMethod {
     methodName: string;
     argCount: number;
+    description?: string | undefined;
 }
