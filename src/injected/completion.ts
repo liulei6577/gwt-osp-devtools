@@ -1,8 +1,5 @@
 import createMethodCompleter from './from-comp';
-// import * as prettier from 'prettier';
-import * as prettier from 'prettier/standalone';
-import parserBabel from 'prettier/plugins/babel';
-import estreePlugin from 'prettier/plugins/estree';
+import {addCommand} from './ace-command';
 
 (() => {
 
@@ -25,7 +22,8 @@ import estreePlugin from 'prettier/plugins/estree';
     const waitAceLoaded = (aceEditorId: string, times: number) => {
         if (window.ace) {
             const editor: any = window.ace.edit(aceEditorId);
-            bindHotKey(editor);
+            bindingHotKey(editor);
+            addCommand(editor);
             const formDesigner = getFormDesigner();
             const formDesignerCompleter = createFormDesignerCompleter(formDesigner);
             const methodCompleter = createMethodCompleter(formDesigner);
@@ -205,7 +203,7 @@ import estreePlugin from 'prettier/plugins/estree';
                             snippet: undefined,
                             meta: comp.group,
                             score: calculateScore(prefix, comp.id),
-                            docHTML: comp.name,
+                            docHTML: getDocHtml(comp)
                         };
                     });
                     completions.push(...compsCompletions);
@@ -213,6 +211,14 @@ import estreePlugin from 'prettier/plugins/estree';
                 callback(null, completions);
             }
         };
+    };
+
+    /**
+     * 拼接docHtml
+     * @param comp
+     */
+    const getDocHtml = (comp: FormComponent): string => {
+        return `类型：${comp.type}<br/><hr/>名称：${comp.name}`;
     };
 
     /**
@@ -242,35 +248,23 @@ import estreePlugin from 'prettier/plugins/estree';
     };
 
     /**
-     * 快捷键绑定
+     * 绑定快捷键
      * @param editor
      */
-    const bindHotKey = (editor: any) => {
-        editor.commands.addCommand({
-            name: 'formatCode',
-            bindKey: {win: 'Alt-Shift-F', mac: 'Option-Shift-F'},
-            exec: () => {
-                formatCode(editor);
-            }
-        });
+    const bindingHotKey = (editor: any) => {
+        editor.commands.bindKey({win: 'Ctrl-Shift-J', mac: 'Command-Shift-J'}, 'joinlines');
     };
 
     /**
-     * 格式化代码
-     * @param editor
+     * 禁用浏览器的快捷键
      */
-    const formatCode = (editor: any) => {
-        console.log('editor=', editor);
-        prettier.format(editor.getValue(), {
-            parser: 'babel',
-            plugins: [parserBabel, estreePlugin],
-            useTabs: false,
-            tabWidth: 4,
-            semi: false,
-            addSemicolons: false,
-            removeSemicolons: false,
-            printWidth: Number.MAX_SAFE_INTEGER,
-        }).then(result => editor.setValue(result));
+    const disableBrowserHotKey = () => {
+        document.addEventListener('keydown', (event) => {
+            //禁用Ctrl+R防止为了搜索而导致页面刷新
+            if (!event.shiftKey && event.ctrlKey && (event.key === 'r' || event.key === 'R')) {
+                event.preventDefault();
+            }
+        });
     };
 
     /**
@@ -278,6 +272,7 @@ import estreePlugin from 'prettier/plugins/estree';
      */
     const init = () => {
         initMutationObserver();
+        disableBrowserHotKey();
     };
 
     //初始化

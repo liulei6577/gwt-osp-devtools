@@ -6,9 +6,7 @@ interface Window {
 }
 
 interface HTMLElement {
-    contentWindow: {
-        manager_0: object;
-    };
+    contentWindow: any;
 }
 
 interface FormComponent {

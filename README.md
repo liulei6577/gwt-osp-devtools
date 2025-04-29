@@ -12,7 +12,23 @@ GWT表单开发工具
 - [ACE Editor Wiki](https://github.com/ajaxorg/ace/wiki)
 - [Ace - The High Performance Code Editor for the Web](https://ace.c9.io/)
 - [快捷键文档](https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts)
-- [无法开启代码格式化](https://stackoverflow.com/questions/31767051/how-do-i-use-beautify-in-ace-editor)
+
+## 组件提示
+
+支持表单组件代码提示
+
+## 组件方法提示
+
+开发中...
+
+## 快捷键
+
+| win                | mac                    |         |
+|:-------------------|:-----------------------|:--------|
+| `Ctrl`+`Alt`+`V`   | `Command`+`Option`+`V` | 变量抽取    |
+| `Alt`+`Shift`+`F`  | `Optio`+`Shift`+`F`    | 代码格式化   |
+| `Ctrl`+`U`         | `Command`+`U`          | 选中内容转大写 |
+| `Ctrl`+`Shift`+`U` | `Command`+`Shift`+`U`  | 选中内容转小写 |
 
 ## 代码模板
 

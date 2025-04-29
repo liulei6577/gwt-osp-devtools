@@ -28,6 +28,7 @@ export default defineConfig({
     root: path.resolve(__dirname, 'src'),
     publicDir: path.resolve(__dirname, 'public'),
     build: {
+        minify: true,
         outDir: path.resolve(__dirname, 'dist'),
         rollupOptions: {
             input: {

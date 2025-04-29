@@ -105,7 +105,6 @@ const createMethodCompleter = (formDesigner: FormDesigner) => {
 
             //根据最后一个.来拆分
             const pair = extractPrefix(prefix);
-            console.log('pair=', pair);
 
             if (pair) {
 
