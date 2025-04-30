@@ -3,6 +3,7 @@ interface Window {
     manager_0: object;
     contentWindow: object;
     prettier: any;
+    showAlert: any;
 }
 
 interface HTMLElement {

@@ -14,7 +14,22 @@ const formatCode = (editor: any) => {
         tabWidth: 4,
         semi: true,
         printWidth: Number.MAX_SAFE_INTEGER,
-    }).then(result => editor.setValue(result));
+    }).then(result => editor.setValue(result)).catch(error => {
+        const msg = String(error.codeFrame)
+            .replace(/\n/gi, '<br/>')
+            .replace(/ /gi, '&nbsp;&nbsp;');
+        const showAlert = getShowAlert();
+        showAlert(msg, '代码错误', 'MESSAGE_ERROR', '确定', null);
+    });
+};
+
+const getShowAlert = () => {
+    if (window.showAlert) {
+        return window.showAlert;
+    } else {
+        const element = window.document.getElementById('GWTStandard') as HTMLElement;
+        return element.contentWindow.showAlert;
+    }
 };
 
 /**
