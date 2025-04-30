@@ -19,7 +19,14 @@ GWT表单开发工具
 
 ## 组件方法提示
 
-开发中...
+支持绝大多数组件的方法提示
+
+[请求增加提示](https://github.com/liulei6577/gwt-osp-devtools/issues)
+
+## 其他功能
+
+- 屏蔽浏览器的`Ctrl`+`R`的刷新，请使用`Ctrl`+`Shift`+`R`强制刷新
+- devtools帮助页面 开发中...
 
 ## 快捷键
 
